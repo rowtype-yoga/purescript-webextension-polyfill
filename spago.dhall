@@ -21,14 +21,12 @@ to generate this file without the comments in this block.
   , "either"
   , "foldable-traversable"
   , "foreign"
-  , "foreign-generic"
   , "foreign-object"
   , "maybe"
   , "newtype"
   , "prelude"
-  , "psci-support"
   , "yoga-json"
   ]
-, packages = ../../packages.dhall
+, packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
 }

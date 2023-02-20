@@ -10,7 +10,6 @@ import Effect.Aff (Aff)
 import Effect.Class.Console as Console
 import Effect.Uncurried (EffectFn1, EffectFn2, mkEffectFn1, runEffectFn1, runEffectFn2)
 import Foreign (Foreign, renderForeignError)
-import Foreign.Internal.Stringify (unsafeStringify)
 import Foreign.Object (Object)
 import Foreign.Object as Object
 import Prim.Row (class Union)
@@ -68,7 +67,7 @@ onContentScriptConnected ∷ (Port -> Effect Unit) -> Effect Unit
 onContentScriptConnected = onContentScriptConnectedImpl
 
 type ConnectOptions =
-  ( name ∷ String )
+  (name ∷ String)
 
 foreign import connectToBackgroundScriptImpl ∷ ∀ opts. EffectFn1 (Record opts) Port
 
@@ -88,9 +87,10 @@ foreign import history ∷ Effect BrowserHistory
 
 foreign import addOnVisitedListenerImpl ∷ (EffectFn1 Foreign Unit) -> BrowserHistory -> Effect Unit
 
-addOnVisitedListener ∷
-  (HistoryItem -> Effect Unit) ->
-  BrowserHistory -> Effect Unit
+addOnVisitedListener
+  ∷ (HistoryItem -> Effect Unit)
+  -> BrowserHistory
+  -> Effect Unit
 addOnVisitedListener callback = addOnVisitedListenerImpl (mkEffectFn1 rawCallback)
   where
   rawCallback f = do
@@ -99,9 +99,7 @@ addOnVisitedListener callback = addOnVisitedListenerImpl (mkEffectFn1 rawCallbac
       Left err ->
         Console.error
           $ "Could not parse history item "
-          <> unsafeStringify f
-          <> " "
-          <> intercalateMap "\n" renderForeignError err
+              <> intercalateMap "\n" renderForeignError err
       Right ok -> callback ok
 
 type HistoryItem =
